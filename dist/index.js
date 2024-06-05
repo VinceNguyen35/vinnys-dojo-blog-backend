@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const blogRoutes_1 = __importDefault(require("./routes/blogRoutes"));
 const app = (0, express_1.default)();
 dotenv_1.default.config();
 // Middleware
@@ -15,6 +16,8 @@ app.use((req, res, next) => {
     console.log(req.method, req.path);
     next();
 });
+// Routes
+app.use("/api/blogs", blogRoutes_1.default);
 // Testing server
 app.get("/", (req, res) => {
     res.send("Changes Works");

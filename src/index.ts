@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import blogRoutes from './routes/blogRoutes';
 
 const app = express();
 dotenv.config();
@@ -13,6 +14,9 @@ app.use((req, res, next) => {
     console.log(req.method, req.path);
     next();
 });
+
+// Routes
+app.use("/api/blogs", blogRoutes);
 
 // Testing server
 app.get("/", (req, res) => {
