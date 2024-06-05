@@ -22,32 +22,94 @@ const pool = mysql2_1.default.createPool({
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
 }).promise();
-const getBlogs = () => __awaiter(void 0, void 0, void 0, function* () {
-    const [rows] = yield pool.query("SELECT * FROM blogs");
-    return rows;
+const getBlogs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const [blogs] = yield pool.query("SELECT * FROM blogs");
+        res.status(200).json(blogs);
+    }
+    catch (err) {
+        res.status(400).json({ error: "Cannot get blogs" });
+    }
 });
 exports.getBlogs = getBlogs;
-const getBlog = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const [row] = yield pool.query(`
-    SELECT * 
-    FROM blogs 
-    WHERE id = ?
-    `, [id]);
-    return row;
+const getBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const [blog] = yield pool.query(`
+        SELECT * 
+        FROM blogs 
+        WHERE id = ?
+        `, [id]);
+        res.status(200).json(blog);
+    }
+    catch (err) {
+        res.status(400).json({ error: "Blog does not exist" });
+    }
 });
 exports.getBlog = getBlog;
-const createBlog = () => __awaiter(void 0, void 0, void 0, function* () {
-    // const [row] = await pool.query(`
-    // INSERT INTO notes (title, contents)
-    // VALUES (?, ?, ?)
-    // `, [title, author, content]);
-    // const id: number = row.insertId;
-    // return getBlog(id);
+const createBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { title, author, content } = req.body;
+    try {
+        // Create the blog
+        const [row] = yield pool.query(`
+        INSERT INTO blogs (title, author, content)
+        VALUES (?, ?, ?)
+        `, [title, author, content]);
+        // Return the new blog as json
+        const [newBlog] = yield pool.query(`
+        SELECT * 
+        FROM blogs 
+        WHERE id = LAST_INSERT_ID()
+        `);
+        res.status(200).json(newBlog);
+    }
+    catch (err) {
+        res.status(400).json({ error: "Could not make new blog" });
+    }
 });
 exports.createBlog = createBlog;
-const updateBlog = () => __awaiter(void 0, void 0, void 0, function* () {
+const updateBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { title, author, content } = req.body;
+    try {
+        // Update the blog
+        const [row] = yield pool.query(`
+        UPDATE blogs
+        SET title = ?, author = ?, content = ?
+        WHERE id = ?
+        `, [title, author, content, id]);
+        // Return the updated blog as json
+        const [updatedBlog] = yield pool.query(`
+        SELECT * 
+        FROM blogs 
+        WHERE id = ?
+        `, [id]);
+        res.status(200).json(updatedBlog);
+    }
+    catch (err) {
+        res.status(400).json({ error: "Could not update blog" });
+    }
 });
 exports.updateBlog = updateBlog;
-const deleteBlog = () => __awaiter(void 0, void 0, void 0, function* () {
+const deleteBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        // Get the blog to return as json
+        const [deletedBlog] = yield pool.query(`
+        SELECT * 
+        FROM blogs 
+        WHERE id = ?
+        `, [id]);
+        // Delete the blog
+        const [row] = yield pool.query(`
+        DELETE 
+        FROM blogs 
+        WHERE id = ?
+        `, [id]);
+        res.status(200).json(deletedBlog);
+    }
+    catch (err) {
+        res.status(400).json({ error: "Could not delete blog" });
+    }
 });
 exports.deleteBlog = deleteBlog;

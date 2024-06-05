@@ -1,3 +1,4 @@
+// Imports
 import express from 'express';
 import dotenv from 'dotenv';
 import blogRoutes from './routes/blogRoutes';
@@ -17,11 +18,6 @@ app.use((req, res, next) => {
 
 // Routes
 app.use("/api/blogs", blogRoutes);
-
-// Testing server
-app.get("/", (req, res) => {
-    res.send("Changes Works");
-});
 
 // Listen for Requests
 app.listen(process.env.PORT, () => {

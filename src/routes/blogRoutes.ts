@@ -1,4 +1,4 @@
-import express, { Request, Response, Router } from 'express';
+import express, { Router } from 'express';
 import {
     getBlogs,
     getBlog,
@@ -10,10 +10,7 @@ import {
 const router: Router = express.Router();
 
 // GET all blogs
-router.get("/", async (req: Request, res: Response) => {
-    const blogs = await getBlogs();
-    res.send(blogs);
-});
+router.get("/", getBlogs);
 
 // GET a single blog
 router.get("/:id", getBlog);
