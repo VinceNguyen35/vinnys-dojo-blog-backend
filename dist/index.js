@@ -6,10 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // Imports
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const cors_1 = __importDefault(require("cors"));
 const blogRoutes_1 = __importDefault(require("./routes/blogRoutes"));
 const app = (0, express_1.default)();
 dotenv_1.default.config();
 // Middleware
+// CORS Config
+app.use((0, cors_1.default)());
 // Body Parser
 app.use(express_1.default.json());
 // Morgan

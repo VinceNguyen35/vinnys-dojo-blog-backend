@@ -1,12 +1,17 @@
 // Imports
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import blogRoutes from './routes/blogRoutes';
 
 const app = express();
 dotenv.config();
 
 // Middleware
+
+// CORS Config
+app.use(cors());
+
 // Body Parser
 app.use(express.json());
 
