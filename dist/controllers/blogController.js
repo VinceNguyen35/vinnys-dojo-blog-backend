@@ -24,7 +24,11 @@ const pool = mysql2_1.default.createPool({
 }).promise();
 const getBlogs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const [blogs] = yield pool.query("SELECT * FROM blogs");
+        const [blogs] = yield pool.query(`
+            SELECT * 
+            FROM blogs
+            ORDER BY id DESC
+        `);
         res.status(200).json(blogs);
     }
     catch (err) {
@@ -36,9 +40,9 @@ const getBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
         const [blog] = yield pool.query(`
-        SELECT * 
-        FROM blogs 
-        WHERE id = ?
+            SELECT * 
+            FROM blogs 
+            WHERE id = ?
         `, [id]);
         res.status(200).json(blog);
     }
@@ -52,14 +56,14 @@ const createBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         // Create the blog
         const [row] = yield pool.query(`
-        INSERT INTO blogs (title, author, content)
-        VALUES (?, ?, ?)
+            INSERT INTO blogs (title, author, content)
+            VALUES (?, ?, ?)
         `, [title, author, content]);
         // Return the new blog as json
         const [newBlog] = yield pool.query(`
-        SELECT * 
-        FROM blogs 
-        WHERE id = LAST_INSERT_ID()
+            SELECT * 
+            FROM blogs 
+            WHERE id = LAST_INSERT_ID()
         `);
         res.status(200).json(newBlog);
     }
@@ -74,15 +78,15 @@ const updateBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         // Update the blog
         const [row] = yield pool.query(`
-        UPDATE blogs
-        SET title = ?, author = ?, content = ?
-        WHERE id = ?
+            UPDATE blogs
+            SET title = ?, author = ?, content = ?
+            WHERE id = ?
         `, [title, author, content, id]);
         // Return the updated blog as json
         const [updatedBlog] = yield pool.query(`
-        SELECT * 
-        FROM blogs 
-        WHERE id = ?
+            SELECT * 
+            FROM blogs 
+            WHERE id = ?
         `, [id]);
         res.status(200).json(updatedBlog);
     }
@@ -96,15 +100,15 @@ const deleteBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         // Get the blog to return as json
         const [deletedBlog] = yield pool.query(`
-        SELECT * 
-        FROM blogs 
-        WHERE id = ?
+            SELECT * 
+            FROM blogs 
+            WHERE id = ?
         `, [id]);
         // Delete the blog
         const [row] = yield pool.query(`
-        DELETE 
-        FROM blogs 
-        WHERE id = ?
+            DELETE 
+            FROM blogs 
+            WHERE id = ?
         `, [id]);
         res.status(200).json(deletedBlog);
     }

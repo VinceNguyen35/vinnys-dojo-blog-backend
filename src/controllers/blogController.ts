@@ -12,7 +12,11 @@ const pool = mysql.createPool({
 
 const getBlogs = async (req: Request, res: Response) => {
     try {
-        const [blogs] = await pool.query("SELECT * FROM blogs");
+        const [blogs] = await pool.query(`
+            SELECT * 
+            FROM blogs
+            ORDER BY id DESC
+        `);
         res.status(200).json(blogs);
     } catch(err) {
         res.status(400).json({ error: "Cannot get blogs" });
@@ -23,9 +27,9 @@ const getBlog = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const [blog] = await pool.query(`
-        SELECT * 
-        FROM blogs 
-        WHERE id = ?
+            SELECT * 
+            FROM blogs 
+            WHERE id = ?
         `, [id]);
         res.status(200).json(blog);
     } catch(err) {
@@ -39,15 +43,15 @@ const createBlog = async (req: Request, res: Response) => {
     try {
         // Create the blog
         const [row] = await pool.query(`
-        INSERT INTO blogs (title, author, content)
-        VALUES (?, ?, ?)
+            INSERT INTO blogs (title, author, content)
+            VALUES (?, ?, ?)
         `, [title, author, content]);
 
         // Return the new blog as json
         const [newBlog] = await pool.query(`
-        SELECT * 
-        FROM blogs 
-        WHERE id = LAST_INSERT_ID()
+            SELECT * 
+            FROM blogs 
+            WHERE id = LAST_INSERT_ID()
         `);
         res.status(200).json(newBlog);
     } catch(err) {
@@ -62,16 +66,16 @@ const updateBlog = async (req: Request, res: Response) => {
     try {
         // Update the blog
         const [row] = await pool.query(`
-        UPDATE blogs
-        SET title = ?, author = ?, content = ?
-        WHERE id = ?
+            UPDATE blogs
+            SET title = ?, author = ?, content = ?
+            WHERE id = ?
         `, [title, author, content, id]);
 
         // Return the updated blog as json
         const [updatedBlog] = await pool.query(`
-        SELECT * 
-        FROM blogs 
-        WHERE id = ?
+            SELECT * 
+            FROM blogs 
+            WHERE id = ?
         `, [id]);
         res.status(200).json(updatedBlog);
     } catch(err) {
@@ -85,16 +89,16 @@ const deleteBlog = async (req: Request, res: Response) => {
     try {
         // Get the blog to return as json
         const [deletedBlog] = await pool.query(`
-        SELECT * 
-        FROM blogs 
-        WHERE id = ?
+            SELECT * 
+            FROM blogs 
+            WHERE id = ?
         `, [id]);
 
         // Delete the blog
         const [row] = await pool.query(`
-        DELETE 
-        FROM blogs 
-        WHERE id = ?
+            DELETE 
+            FROM blogs 
+            WHERE id = ?
         `, [id]);
         res.status(200).json(deletedBlog);
     } catch(err) {
