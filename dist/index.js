@@ -12,7 +12,7 @@ const app = (0, express_1.default)();
 dotenv_1.default.config();
 // Middleware
 // CORS Config
-app.use((0, cors_1.default)({ origin: 'http://localhost:5173' }));
+app.use((0, cors_1.default)());
 // Body Parser
 app.use(express_1.default.json());
 // Morgan

@@ -20,6 +20,7 @@ const getBlogs = async (req: Request, res: Response) => {
         console.log("hit");
         res.status(200).json(blogs);
     } catch(err) {
+        console.log(err);
         res.status(400).json({ error: "Cannot get blogs" });
     }
 }
@@ -34,6 +35,7 @@ const getBlog = async (req: Request, res: Response) => {
         `, [id]);
         res.status(200).json(blog);
     } catch(err) {
+        console.log(err);
         res.status(400).json({ error: "Blog does not exist" });
     }
 }
@@ -56,6 +58,7 @@ const createBlog = async (req: Request, res: Response) => {
         `);
         res.status(200).json(newBlog);
     } catch(err) {
+        console.log(err);
         res.status(400).json({ error: "Could not make new blog" });
     }
 }
@@ -80,6 +83,7 @@ const updateBlog = async (req: Request, res: Response) => {
         `, [id]);
         res.status(200).json(updatedBlog);
     } catch(err) {
+        console.log(err);
         res.status(400).json({ error: "Could not update blog" });
     }
 }
@@ -103,6 +107,7 @@ const deleteBlog = async (req: Request, res: Response) => {
         `, [id]);
         res.status(200).json(deletedBlog);
     } catch(err) {
+        console.log(err);
         res.status(400).json({ error: "Could not delete blog" });
     }
 }

@@ -10,7 +10,7 @@ dotenv.config();
 // Middleware
 
 // CORS Config
-app.use(cors({ origin: 'http://localhost:5173' }));
+app.use(cors());
 
 // Body Parser
 app.use(express.json());

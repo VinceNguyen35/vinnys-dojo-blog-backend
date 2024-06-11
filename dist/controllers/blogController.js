@@ -33,6 +33,7 @@ const getBlogs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(200).json(blogs);
     }
     catch (err) {
+        console.log(err);
         res.status(400).json({ error: "Cannot get blogs" });
     }
 });
@@ -48,6 +49,7 @@ const getBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(200).json(blog);
     }
     catch (err) {
+        console.log(err);
         res.status(400).json({ error: "Blog does not exist" });
     }
 });
@@ -69,6 +71,7 @@ const createBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(200).json(newBlog);
     }
     catch (err) {
+        console.log(err);
         res.status(400).json({ error: "Could not make new blog" });
     }
 });
@@ -92,6 +95,7 @@ const updateBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(200).json(updatedBlog);
     }
     catch (err) {
+        console.log(err);
         res.status(400).json({ error: "Could not update blog" });
     }
 });
@@ -114,6 +118,7 @@ const deleteBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(200).json(deletedBlog);
     }
     catch (err) {
+        console.log(err);
         res.status(400).json({ error: "Could not delete blog" });
     }
 });
