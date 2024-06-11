@@ -17,6 +17,7 @@ const getBlogs = async (req: Request, res: Response) => {
             FROM blogs
             ORDER BY id DESC
         `);
+        console.log("hit");
         res.status(200).json(blogs);
     } catch(err) {
         res.status(400).json({ error: "Cannot get blogs" });

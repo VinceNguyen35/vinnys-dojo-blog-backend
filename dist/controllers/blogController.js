@@ -29,6 +29,7 @@ const getBlogs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             FROM blogs
             ORDER BY id DESC
         `);
+        console.log("hit");
         res.status(200).json(blogs);
     }
     catch (err) {
