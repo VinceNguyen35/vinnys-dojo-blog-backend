@@ -24,6 +24,21 @@ const getBlogs = async (req: Request, res: Response) => {
     }
 }
 
+const getLatestBlog = async (req: Request, res: Response) => {
+    try {
+        const [blog] = await pool.query(`
+            SELECT * 
+            FROM blogs
+            ORDER BY id DESC
+            LIMIT 1
+        `);
+        res.status(200).json(blog);
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({ error: "Cannot get latest blog" });
+    }
+}
+
 const getBlog = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
@@ -113,6 +128,7 @@ const deleteBlog = async (req: Request, res: Response) => {
 
 export {
     getBlogs,
+    getLatestBlog,
     getBlog,
     createBlog,
     updateBlog,

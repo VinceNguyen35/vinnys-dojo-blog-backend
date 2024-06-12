@@ -7,6 +7,8 @@ const blogController_1 = require("../controllers/blogController");
 const router = express_1.default.Router();
 // GET all blogs
 router.get("/", blogController_1.getBlogs);
+// GET latest blog
+router.get("/latest", blogController_1.getLatestBlog);
 // GET a single blog
 router.get("/:id", blogController_1.getBlog);
 // CREATE a new blog

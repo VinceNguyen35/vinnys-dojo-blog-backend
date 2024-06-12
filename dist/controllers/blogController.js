@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteBlog = exports.updateBlog = exports.createBlog = exports.getBlog = exports.getBlogs = void 0;
+exports.deleteBlog = exports.updateBlog = exports.createBlog = exports.getBlog = exports.getLatestBlog = exports.getBlogs = void 0;
 const mysql2_1 = __importDefault(require("mysql2"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
@@ -37,6 +37,22 @@ const getBlogs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getBlogs = getBlogs;
+const getLatestBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const [blog] = yield pool.query(`
+            SELECT * 
+            FROM blogs
+            ORDER BY id DESC
+            LIMIT 1
+        `);
+        res.status(200).json(blog);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(400).json({ error: "Cannot get latest blog" });
+    }
+});
+exports.getLatestBlog = getLatestBlog;
 const getBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
