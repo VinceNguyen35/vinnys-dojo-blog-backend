@@ -55,14 +55,14 @@ const getBlog = async (req: Request, res: Response) => {
 }
 
 const createBlog = async (req: Request, res: Response) => {
-    const { title, author, content } = req.body;
+    const { title, author, category, content } = req.body;
 
     try {
         // Create the blog
         const [row] = await pool.query(`
-            INSERT INTO blogs (title, author, content)
-            VALUES (?, ?, ?)
-        `, [title, author, content]);
+            INSERT INTO blogs (title, author, category, content)
+            VALUES (?, ?, ?, ?)
+        `, [title, author, category, content]);
 
         // Return the new blog as json
         const [newBlog] = await pool.query(`
@@ -79,15 +79,15 @@ const createBlog = async (req: Request, res: Response) => {
 
 const updateBlog = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { title, author, content } = req.body;
+    const { title, author, category, content } = req.body;
 
     try {
         // Update the blog
         const [row] = await pool.query(`
             UPDATE blogs
-            SET title = ?, author = ?, content = ?
+            SET title = ?, author = ?, category = ?, content = ?
             WHERE id = ?
-        `, [title, author, content, id]);
+        `, [title, author, category, content, id]);
 
         // Return the updated blog as json
         const [updatedBlog] = await pool.query(`

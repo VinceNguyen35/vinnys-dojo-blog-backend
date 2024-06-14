@@ -70,13 +70,13 @@ const getBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getBlog = getBlog;
 const createBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { title, author, content } = req.body;
+    const { title, author, category, content } = req.body;
     try {
         // Create the blog
         const [row] = yield pool.query(`
-            INSERT INTO blogs (title, author, content)
-            VALUES (?, ?, ?)
-        `, [title, author, content]);
+            INSERT INTO blogs (title, author, category, content)
+            VALUES (?, ?, ?, ?)
+        `, [title, author, category, content]);
         // Return the new blog as json
         const [newBlog] = yield pool.query(`
             SELECT * 
@@ -93,14 +93,14 @@ const createBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.createBlog = createBlog;
 const updateBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const { title, author, content } = req.body;
+    const { title, author, category, content } = req.body;
     try {
         // Update the blog
         const [row] = yield pool.query(`
             UPDATE blogs
-            SET title = ?, author = ?, content = ?
+            SET title = ?, author = ?, category = ?, content = ?
             WHERE id = ?
-        `, [title, author, content, id]);
+        `, [title, author, category, content, id]);
         // Return the updated blog as json
         const [updatedBlog] = yield pool.query(`
             SELECT * 
