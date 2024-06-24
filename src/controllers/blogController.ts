@@ -24,6 +24,20 @@ const getBlogs = async (req: Request, res: Response) => {
     }
 }
 
+const getCategories = async (req: Request, res: Response) => {
+    try {
+        const [blogs] = await pool.query(`
+            SELECT category
+            FROM blogs
+            GROUP BY category
+        `);
+        res.status(200).json(blogs);
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({ error: "Cannot get blog categories" });
+    }
+}
+
 const getLatestBlog = async (req: Request, res: Response) => {
     try {
         const [blog] = await pool.query(`
@@ -128,6 +142,7 @@ const deleteBlog = async (req: Request, res: Response) => {
 
 export {
     getBlogs,
+    getCategories,
     getLatestBlog,
     getBlog,
     createBlog,

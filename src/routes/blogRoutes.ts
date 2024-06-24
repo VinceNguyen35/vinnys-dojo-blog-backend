@@ -1,6 +1,7 @@
 import express, { Router } from 'express';
 import {
     getBlogs,
+    getCategories,
     getLatestBlog,
     getBlog,
     createBlog,
@@ -12,6 +13,9 @@ const router: Router = express.Router();
 
 // GET all blogs
 router.get("/", getBlogs);
+
+// GET all blog categories
+router.get("/categories", getCategories);
 
 // GET latest blog
 router.get("/latest", getLatestBlog);

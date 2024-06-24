@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteBlog = exports.updateBlog = exports.createBlog = exports.getBlog = exports.getLatestBlog = exports.getBlogs = void 0;
+exports.deleteBlog = exports.updateBlog = exports.createBlog = exports.getBlog = exports.getLatestBlog = exports.getCategories = exports.getBlogs = void 0;
 const mysql2_1 = __importDefault(require("mysql2"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
@@ -37,6 +37,21 @@ const getBlogs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getBlogs = getBlogs;
+const getCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const [blogs] = yield pool.query(`
+            SELECT category
+            FROM blogs
+            GROUP BY category
+        `);
+        res.status(200).json(blogs);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(400).json({ error: "Cannot get blog categories" });
+    }
+});
+exports.getCategories = getCategories;
 const getLatestBlog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const [blog] = yield pool.query(`
