@@ -9,6 +9,8 @@ const router = express_1.default.Router();
 router.get("/", blogController_1.getBlogs);
 // GET all blog categories
 router.get("/categories", blogController_1.getCategories);
+// GET all blogs by category
+router.get("/categories/:category", blogController_1.getBlogsByCategory);
 // GET latest blog
 router.get("/latest", blogController_1.getLatestBlog);
 // GET a single blog

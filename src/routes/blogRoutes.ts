@@ -2,6 +2,7 @@ import express, { Router } from 'express';
 import {
     getBlogs,
     getCategories,
+    getBlogsByCategory,
     getLatestBlog,
     getBlog,
     createBlog,
@@ -16,6 +17,9 @@ router.get("/", getBlogs);
 
 // GET all blog categories
 router.get("/categories", getCategories);
+
+// GET all blogs by category
+router.get("/categories/:category", getBlogsByCategory);
 
 // GET latest blog
 router.get("/latest", getLatestBlog);
